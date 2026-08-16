@@ -196,6 +196,84 @@ async function searchByPhone(phoneNumber) {
     return matches;
 }
 
+function isToday(timestamp) {
+    let visitDate = new Date(timestamp);
+    let now = new Date();
+
+    return visitDate.getDate() === now.getDate() &&
+           visitDate.getMonth() === now.getMonth() &&
+           visitDate.getFullYear() === now.getFullYear();
+}
+
+async function getTodaysStats() {
+    let history = await getServedHistory();
+
+    let todaysVisits = history.filter(function(visit){
+        return isToday(visit.servedTime);
+    });
+
+    let emergencyCount = todaysVisits.filter(function(visit){
+        return visit.triageScore >= 60;
+    }).length;
+
+    let queue = await getQueue();
+
+    return {
+        totalServedToday: todaysVisits.length,
+        emergencyCount: emergencyCount,
+        currentlyWaiting: queue.length
+    };
+}
+
+async function getUsers() {
+    let response = await fetch(`${API_BASE}/users`);
+    let users = await response.json();
+    return users;
+}
+
+async function handleAddStaff() {
+    let username = document.getElementById("staffUsername").value.trim();
+    let password = document.getElementById("staffPassword").value;
+    let role = document.getElementById("staffRole").value;
+
+    if (username === "") {
+        alert("Please enter a username");
+        return;
+    }
+    if (password === "") {
+        alert("Please enter a password");
+        return;
+    }
+
+    let users = await getUsers();
+
+    let usernameTaken = users.some(function (user) {
+        return user.username === username;
+    });
+
+    if (usernameTaken) {
+        alert("That username is already taken");
+        return;
+    }
+
+    let newUser = {
+        username: username,
+        password: password,
+        role: role
+    };
+
+    await fetch(`${API_BASE}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser)
+    });
+
+    document.getElementById("staffUsername").value = "";
+    document.getElementById("staffPassword").value = "";
+
+    renderStaffList();
+}
+
 async function autoCallNextIfAvailable() {
     let currentlyServing = await getCurrentlyServing();
 

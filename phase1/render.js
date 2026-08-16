@@ -157,3 +157,40 @@ async function openPatientProfile() {
     <textarea id="doctorNotes" placeholder="Enter treatment/medicines given..."></textarea>
     <button onclick="finishVisit()">Finish Visit</button>`;
 }
+
+async function renderAdminStats() {
+    let statsContainer = document.getElementById("statsContainer");
+    if (!statsContainer) return;
+
+    let stats = await getTodaysStats();
+
+    statsContainer.innerHTML = `
+        <div class="patientCard">
+            <p><strong>Patients Served Today:</strong> ${stats.totalServedToday}</p>
+            <p><strong>Emergency Cases Today:</strong> ${stats.emergencyCount}</p>
+            <p><strong>Currently Waiting:</strong> ${stats.currentlyWaiting}</p>
+        </div>`;
+}
+renderAdminStats();
+
+async function renderStaffList() {
+    let staffListDiv = document.getElementById("staffList");
+    if (!staffListDiv) return;
+
+    let users = await getUsers();
+
+    if (users.length === 0) {
+        staffListDiv.innerHTML = "<p>No staff accounts yet.</p>";
+        return;
+    }
+
+    staffListDiv.innerHTML = "";
+
+    users.forEach(function (user) {
+        let userCard = document.createElement("div");
+        userCard.className = "patientCard";
+        userCard.innerHTML = `<p><strong>${user.username}</strong> — ${user.role}</p>`;
+        staffListDiv.appendChild(userCard);
+    });
+}
+renderStaffList();

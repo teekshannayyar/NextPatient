@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPatient - Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="intake.html">Intake</a> |
+        <a href="doctor.html">Doctor</a> |
+        <a href="admin.html">Admin</a>
+    </nav>
+
+    <h1>Admin Dashboard</h1>
+
+    <div id="statsContainer"></div>
+
+    <hr>
+
+    <h2>Patient History Lookup</h2>
+    <div id="history_search">
+        <input type="text" id="searchPhone" placeholder="Search by phone number...">
+        <button onclick="handleSearch()">Search</button>
+        <div id="searchResults"></div>
+    </div>
+
+    <script src="triage.js"></script>
+    <script src="render.js"></script>
+
+    <hr>
+
+<h2>Manage Staff</h2>
+<div id="add_staff">
+    <input type="text" id="staffUsername" placeholder="Username">
+    <input type="password" id="staffPassword" placeholder="Password">
+    <select id="staffRole">
+        <option value="doctor">Doctor</option>
+        <option value="receptionist">Receptionist</option>
+    </select>
+    <button onclick="handleAddStaff()">Add Staff</button>
+</div>
+
+<div id="staffList"></div>
+
+</body>
+
+</html>
