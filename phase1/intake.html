@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPatient - Intake</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="intake.html">Intake</a> |
+        <a href="doctor.html">Doctor</a> |
+        <a href="admin.html">Admin</a>
+    </nav>
+
+    <div id="container">
+        <form action="">
+            <!-- Patient Name -->
+            <input type="text" id="name" placeholder="Enter Patient Name...">
+
+            <input type="number" id="age" placeholder="Enter Age...">
+
+            <input type="tel" id="phone" placeholder="Enter Phone Number...">
+
+            <label>Pain Severity: <span id="painValue">1</span></label>
+            <input type="range" id="PainSeverity" min="1" max="5" value="1">
+
+            <label>Breathing Difficulty: <span id="breathingValue">1</span></label>
+            <input type="range" id="BreathingDifficulty" min="1" max="5" value="1">
+
+            <label>Symptoms</label>
+
+            <label class="toggle">
+                <input type="checkbox" id="fever">
+                <span class="slider"></span>
+                🌡️ Fever
+            </label>
+            <label class="toggle">
+                <input type="checkbox" id="fainting">
+                <span class="slider"></span>
+                😵 Fainting / Loss of Consciousness
+            </label>
+            <label class="toggle">
+                <input type="checkbox" id="chestPain">
+                <span class="slider"></span>
+                💔 Chest Pain
+            </label>
+            <label class="toggle">
+                <input type="checkbox" id="bleeding">
+                <span class="slider"></span>
+                🩸 Severe Bleeding
+            </label>
+            <label class="toggle">
+                <input type="checkbox" id="vomiting">
+                <span class="slider"></span>
+                🤢 Vomiting
+            </label>
+            <label class="toggle">
+                <input type="checkbox" id="dizziness">
+                <span class="slider"></span>
+                🌀 Dizziness
+            </label>
+
+            <button id="submit" onclick="handleFormsubmit(event)">Submit Patient</button>
+        </form>
+
+        <div id="intakeConfirmation"></div>
+    </div>
+
+    <div id="now_serving"></div>
+
+    <div id="queue_container"></div>
+
+    <script src="triage.js"></script>
+    <script src="render.js"></script>
+
+</body>
+
+</html>

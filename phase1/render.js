@@ -1,26 +1,159 @@
-function renderQueue() {
+async function renderQueue() {
     let container = document.getElementById("queue_container");
+    if (!container) return;
+
+    await autoCallNextIfAvailable();
+
     container.innerHTML = "";
-    let queue = getQueue();
+    let queue = await getQueue();
+
+    let nowServingDiv = document.getElementById("now_serving");
+    let currentlyServing = await getCurrentlyServing();
+
+    if (currentlyServing != null) {
+        nowServingDiv.innerHTML = `<h2>Now Serving: ${currentlyServing.name}</h2>`;
+    }
+    else {
+        nowServingDiv.innerHTML = `<h2>No one is currently waiting</h2>`;
+    }
 
     queue.forEach((patient, index) => {
         let patientCard = document.createElement("div");
         patientCard.className = "patientCard"
 
         patientCard.innerHTML =
-            `<h3>${index + 1} - ${patient.name}</h3> 
-        <p>Priority Score: ${patient.triageScore}</p>`;
+            `<h3>${index + 1} - ${patient.name}</h3>`;
 
         container.appendChild(patientCard);
     });
 }
 renderQueue()
 
+let painSlider = document.getElementById("PainSeverity");
+if (painSlider) {
+    painSlider.addEventListener("input", function () {
+        document.getElementById("painValue").textContent = this.value;
+    });
+}
 
-document.getElementById("PainSeverity").addEventListener("input", function () {
-    document.getElementById("painValue").textContent = this.value;
-});
+let breathingSlider = document.getElementById("BreathingDifficulty");
+if (breathingSlider) {
+    breathingSlider.addEventListener("input", function () {
+        document.getElementById("breathingValue").textContent = this.value;
+    });
+}
 
-document.getElementById("BreathingDifficulty").addEventListener("input", function () {
-    document.getElementById("breathingValue").textContent = this.value;
-});
+async function handleSearch() {
+    let searchPhoneInput = document.getElementById("searchPhone");
+    if (!searchPhoneInput) return;
+
+    let searchPhone = searchPhoneInput.value.trim();
+
+    if (searchPhone.length !== 10) {
+        alert("Please enter a valid 10-digit phone number");
+        return;
+    }
+
+    let matches = await searchByPhone(searchPhone);
+
+    matches.sort(function (a, b) {
+        return b.servedTime - a.servedTime;
+    });
+
+    let resultsDiv = document.getElementById("searchResults");
+    resultsDiv.innerHTML = "";
+
+    if (matches.length === 0) {
+        resultsDiv.innerHTML = "<p>No records found.</p>";
+    }
+    else {
+        matches.forEach(function (patient) {
+            let patientCard = document.createElement("div");
+            patientCard.className = "patientCard"
+
+            let symptomsText = (patient.symptoms && patient.symptoms.length > 0)
+                ? patient.symptoms.join(", ")
+                : "None reported";
+
+            patientCard.innerHTML =
+                `<h3>${patient.name}</h3>
+            <p>Age: ${patient.age}</p>
+            <p>Symptoms: ${symptomsText}</p>
+            <p>Treatment/Notes: ${patient.doctorNotes ? patient.doctorNotes : "—"}</p>
+            <p>Visit Date: ${new Date(patient.servedTime).toLocaleString()}</p>`;
+
+            resultsDiv.appendChild(patientCard);
+        });
+    }
+}
+
+// ===== Doctor page rendering =====
+
+async function renderDoctorView() {
+    let profileDiv = document.getElementById("patientProfile");
+    if (!profileDiv) return;
+
+    let nowServingDiv = document.getElementById("now_serving");
+    if (!nowServingDiv) return;
+
+    let currentlyServing = await getCurrentlyServing();
+
+    if (currentlyServing == null) {
+        nowServingDiv.innerHTML = `<h2>No patient currently waiting</h2>`;
+        profileDiv.innerHTML = "";
+        return;
+    }
+
+    nowServingDiv.innerHTML =
+        `<h2 onclick="openPatientProfile()" style="cursor:pointer; text-decoration:underline;">
+        Now Serving: ${currentlyServing.name} (click to view)
+    </h2>`;
+
+    profileDiv.innerHTML = "";
+}
+renderDoctorView();
+
+async function openPatientProfile() {
+    let currentlyServing = await getCurrentlyServing();
+    if (currentlyServing == null) return;
+
+    let pastVisits = await searchByPhone(currentlyServing.phone);
+
+    pastVisits.sort(function (a, b) {
+        return b.servedTime - a.servedTime;
+    });
+
+    let profileDiv = document.getElementById("patientProfile");
+
+    let historyHTML = "";
+
+    if (pastVisits.length === 0) {
+        historyHTML = "<p>No previous visits found.</p>";
+    }
+    else {
+        pastVisits.forEach(function (visit) {
+            let symptomsText = (visit.symptoms && visit.symptoms.length > 0)
+                ? visit.symptoms.join(", ")
+                : "None reported";
+
+            historyHTML += `
+            <div class="patientCard">
+                <p><strong>Date:</strong> ${new Date(visit.servedTime).toLocaleString()}</p>
+                <p><strong>Symptoms:</strong> ${symptomsText}</p>
+                <p><strong>Treatment given:</strong> ${visit.doctorNotes ? visit.doctorNotes : "—"}</p>
+            </div>`;
+        });
+    }
+
+    let todaysSymptoms = (currentlyServing.symptoms && currentlyServing.symptoms.length > 0)
+        ? currentlyServing.symptoms.join(", ")
+        : "None reported";
+
+    profileDiv.innerHTML =
+        `<h3>${currentlyServing.name} — Age ${currentlyServing.age}</h3>
+    <p>Symptoms today: ${todaysSymptoms}</p>
+    <h4>Past Visits</h4>
+    ${historyHTML}
+    <textarea id="doctorNotes" placeholder="Enter treatment/medicines given..."></textarea>
+    <button onclick="finishVisit()">Finish Visit</button>`;
+}
