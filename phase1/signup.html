@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPatient - Admin Signup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Admin Signup</h1>
+    <p id="signupBlockedMessage" style="display:none; color:red;">
+        An admin account already exists. Please contact your existing admin to create staff accounts, or log in below.
+    </p>
+
+    <form id="signupForm">
+        <input type="text" id="signupUsername" placeholder="Username">
+        <input type="password" id="signupPassword" placeholder="Password">
+        <button type="button" onclick="handleAdminSignup()">Create Admin Account</button>
+    </form>
+
+    <p><a href="login.html">Already have an account? Log in</a></p>
+
+    <script src="triage.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+
+</html>

@@ -42,6 +42,13 @@
       }
     ]
   },
-  "users": [],
+  "users": [
+    {
+      "username": "teekshannayyar",
+      "password": "Teekshan@123",
+      "role": "admin",
+      "id": "Y4mWucNr6Qw"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

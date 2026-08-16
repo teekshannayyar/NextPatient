@@ -11,10 +11,8 @@
 <body>
 
     <nav>
-        <a href="intake.html">Intake</a> |
-        <a href="doctor.html">Doctor</a> |
-        <a href="admin.html">Admin</a>
-    </nav>
+    <a href="admin.html">Admin Dashboard</a> | <a href="#" onclick="handleLogout()">Logout</a>
+</nav>
 
     <h1>Admin Dashboard</h1>
 
@@ -31,6 +29,8 @@
 
     <script src="triage.js"></script>
     <script src="render.js"></script>
+    <script src="auth.js"></script>
+    <script>requireRole("admin");</script>
 
     <hr>
 
