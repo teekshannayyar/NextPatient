@@ -10,10 +10,8 @@
 
 <body>
 
-    <nav>
-        <a href="intake.html">Intake</a> |
-        <a href="doctor.html">Doctor</a> |
-        <a href="admin.html">Admin</a>
+   <nav>
+        Doctor | <a href="#" onclick="handleLogout()">Logout</a>
     </nav>
 
     <div id="now_serving"></div>
@@ -22,6 +20,8 @@
 
     <script src="triage.js"></script>
     <script src="render.js"></script>
+    <script src="auth.js"></script>
+    <script>requireRole("doctor");</script>
 
 </body>
 

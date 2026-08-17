@@ -19,15 +19,30 @@ async function renderQueue() {
 
     queue.forEach((patient, index) => {
         let patientCard = document.createElement("div");
-        patientCard.className = "patientCard"
+        patientCard.className = "patientCard";
+
+        let effectiveScore = getEffectiveScore(patient);
+        let scoreHTML = effectiveScore > patient.triageScore
+            ? `<span style="color: #ff4d4f;">${effectiveScore} (Aged Priority)</span>`
+            : `${patient.triageScore}`;
 
         patientCard.innerHTML =
-            `<h3>${index + 1} - ${patient.name}</h3>`;
+            `<h3>${index + 1} - ${patient.name}</h3>
+             <p>Score: ${scoreHTML}</p>`;
 
         container.appendChild(patientCard);
     });
 }
-renderQueue()
+renderQueue();
+
+// Anti-Starvation Heartbeat: Runs every 10 seconds for testing!
+// This will re-sort the queue and refresh the UI automatically.
+setInterval(async () => {
+    if (document.getElementById("queue_container")) {
+        await refreshQueueOrder();
+        await renderQueue();
+    }
+}, 10000);
 
 let painSlider = document.getElementById("PainSeverity");
 if (painSlider) {
@@ -74,11 +89,19 @@ async function handleSearch() {
             let symptomsText = (patient.symptoms && patient.symptoms.length > 0)
                 ? patient.symptoms.join(", ")
                 : "None reported";
+            
+            let durationLabels = {
+                "acute": "Under 24 hours",
+                "short_term": "1-3 days",
+                "medium_term": "4-7 days",
+                "chronic": "More than a week"
+            };
+            let durationText = patient.duration ? durationLabels[patient.duration] : "Unknown";
 
             patientCard.innerHTML =
                 `<h3>${patient.name}</h3>
             <p>Age: ${patient.age}</p>
-            <p>Symptoms: ${symptomsText}</p>
+            <p>Symptoms: ${symptomsText} (Duration: ${durationText})</p>
             <p>Treatment/Notes: ${patient.doctorNotes ? patient.doctorNotes : "—"}</p>
             <p>Visit Date: ${new Date(patient.servedTime).toLocaleString()}</p>`;
 

@@ -1,6 +1,6 @@
 const API_BASE = "http://localhost:5000";
 
-function calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age) {
+function calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age, duration) {
     let score = parseInt(pain) + parseInt(breathing);
 
     if (hasfever) score += 10;
@@ -15,6 +15,14 @@ function calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPa
     }
     if (age >= 80 || age < 5) {
         score += 10;
+    }
+
+    if (duration === "acute" && score >= 40) {
+        score += 15;
+    } else if (duration === "chronic" && score >= 40) {
+        score -= 5;
+    } else if (duration === "chronic" && score < 40) {
+        score -= 10;
     }
 
     return score;
@@ -35,6 +43,7 @@ async function handleFormsubmit(event) {
     let hasbleeding = document.getElementById("bleeding").checked;
     let hasvomiting = document.getElementById("vomiting").checked;
     let hasdizziness = document.getElementById("dizziness").checked;
+    let duration = document.getElementById("symptomDuration").value;
 
     if (name == "") {
         alert("Please enter patient name");
@@ -50,7 +59,7 @@ async function handleFormsubmit(event) {
         return;
     }
 
-    let score = calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age);
+    let score = calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age, duration);
 
     let symptomsList = [];
     if (hasfever) symptomsList.push("Fever");
@@ -67,6 +76,7 @@ async function handleFormsubmit(event) {
         phone: phone,
         triageScore: score,
         symptoms: symptomsList,
+        duration: duration,
         arrivalTime: Date.now(),
         status: "waiting",
     }
@@ -88,6 +98,7 @@ async function handleFormsubmit(event) {
     document.getElementById("bleeding").checked = false;
     document.getElementById("vomiting").checked = false;
     document.getElementById("dizziness").checked = false;
+    document.getElementById("symptomDuration").value = "acute";
 }
 
 
@@ -135,17 +146,29 @@ async function setCurrentlyServing(patient) {
     });
 }
 
+function getEffectiveScore(patient) {
+    // For testing purposes, we use 10 seconds. Change 10000 to (1000 * 60 * 15) for 15 minutes!
+    let waitingTimeMs = Date.now() - patient.arrivalTime;
+    let intervalsPassed = Math.floor(waitingTimeMs / 10000); // 10000ms = 10 seconds
+    
+    let bonus = intervalsPassed * 10;
+    return patient.triageScore + bonus;
+}
+
 async function addPatientToQueue(patient) {
     let queue = await getQueue();
     let inserted = false;
 
     for (let i = 0; i < queue.length; i++) {
-        if (patient.triageScore > queue[i].triageScore) {
+        let newPatientScore = getEffectiveScore(patient);
+        let existingPatientScore = getEffectiveScore(queue[i]);
+
+        if (newPatientScore > existingPatientScore) {
             queue.splice(i, 0, patient)
             inserted = true;
             break;
         }
-        else if (patient.triageScore == queue[i].triageScore) {
+        else if (newPatientScore == existingPatientScore) {
             if (patient.arrivalTime < queue[i].arrivalTime) {
                 queue.splice(i, 0, patient);
                 inserted = true;
@@ -158,6 +181,43 @@ async function addPatientToQueue(patient) {
     }
 
     await saveQueue(queue);
+}
+
+async function refreshQueueOrder() {
+    let queue = await getQueue();
+    if (queue.length <= 1) return; // Nothing to sort
+
+    let newQueue = [];
+    
+    // Custom Insertion Sort: re-insert every patient into a new array based on current effective scores
+    for (let p = 0; p < queue.length; p++) {
+        let patient = queue[p];
+        let inserted = false;
+        
+        let newPatientScore = getEffectiveScore(patient);
+
+        for (let i = 0; i < newQueue.length; i++) {
+            let existingPatientScore = getEffectiveScore(newQueue[i]);
+
+            if (newPatientScore > existingPatientScore) {
+                newQueue.splice(i, 0, patient);
+                inserted = true;
+                break;
+            } else if (newPatientScore == existingPatientScore) {
+                if (patient.arrivalTime < newQueue[i].arrivalTime) {
+                    newQueue.splice(i, 0, patient);
+                    inserted = true;
+                    break;
+                }
+            }
+        }
+        
+        if (!inserted) {
+            newQueue.push(patient);
+        }
+    }
+
+    await saveQueue(newQueue);
 }
 
 async function finishVisit() {

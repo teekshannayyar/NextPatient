@@ -11,9 +11,7 @@
 <body>
 
     <nav>
-        <a href="intake.html">Intake</a> |
-        <a href="doctor.html">Doctor</a> |
-        <a href="admin.html">Admin</a>
+        Intake | <a href="#" onclick="handleLogout()">Logout</a>
     </nav>
 
     <div id="container">
@@ -30,6 +28,14 @@
 
             <label>Breathing Difficulty: <span id="breathingValue">1</span></label>
             <input type="range" id="BreathingDifficulty" min="1" max="5" value="1">
+
+            <label>Symptom Duration</label>
+            <select id="symptomDuration">
+                <option value="acute">Acute (Under 24 hours)</option>
+                <option value="short_term">Short-term (1-3 days)</option>
+                <option value="medium_term">Medium-term (4-7 days)</option>
+                <option value="chronic">Chronic (More than a week)</option>
+            </select>
 
             <label>Symptoms</label>
 
@@ -76,6 +82,8 @@
 
     <script src="triage.js"></script>
     <script src="render.js"></script>
+    <script src="auth.js"></script>
+    <script>requireRole("receptionist");</script>
 
 </body>
 
