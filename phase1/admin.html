@@ -4,49 +4,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextPatient - Admin</title>
+    <title>NextPatient - Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="admin-body">
 
-    <nav>
-    <a href="admin.html">Admin Dashboard</a> | <a href="#" onclick="handleLogout()">Logout</a>
-</nav>
+    <div class="dashboard-layout">
 
-    <h1>Admin Dashboard</h1>
+        <!-- ══ SIDEBAR ══ -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>🏥 NextPatient</h2>
+                <p>Admin Portal</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active" onclick="showSection('dashboard', this)">📊 Overview</a>
+                <a href="#" onclick="showSection('history', this)">🔍 Patient History</a>
+                <a href="#" onclick="showSection('addstaff', this)">➕ Add Staff</a>
+                <a href="#" onclick="showSection('currentstaff', this)">👥 Current Staff</a>
+                <a href="#" onclick="showSection('complaints', this)">💬 Complaints</a>
+                <a href="#" onclick="handleLogout()" class="logout-btn">🚪 Logout</a>
+            </nav>
+        </aside>
 
-    <div id="statsContainer"></div>
+        <!-- ══ MAIN CONTENT ══ -->
+        <main class="main-content">
 
-    <hr>
+            <header class="topbar">
+                <h1 id="pageTitle">Overview</h1>
+                <div class="user-profile">Administrator</div>
+            </header>
 
-    <h2>Patient History Lookup</h2>
-    <div id="history_search">
-        <input type="text" id="searchPhone" placeholder="Search by phone number...">
-        <button onclick="handleSearch()">Search</button>
-        <div id="searchResults"></div>
+            <!-- Stats Overview -->
+            <section id="dashboard" class="dashboard-section">
+                <div class="section-header"><h3>Today's Overview</h3></div>
+                <div id="statsContainer" class="stats-grid" style="margin-bottom: 2rem;"></div>
+                
+                <div class="dashboard-card" style="margin-bottom: 2rem;">
+                    <h4>🔴 Now Serving</h4>
+                    <div id="nowServingAdmin"></div>
+                </div>
+
+                <div class="staff-grid">
+                    <div class="dashboard-card">
+                        <h4>🕓 Recent Visits</h4>
+                        <div id="recentVisitsAdmin"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h4>🦠 Top Symptoms Today</h4>
+                        <div id="topSymptomsAdmin"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Patient History -->
+            <section id="history" class="dashboard-section" style="display:none;">
+                <div class="section-header"><h3>Patient History Lookup</h3></div>
+                <div class="dashboard-card full-width">
+                    <div class="search-bar-row">
+                        <input type="text" id="searchPhone" placeholder="Search by 10-digit phone number...">
+                        <button onclick="handleSearch()">Search</button>
+                    </div>
+                    <div id="searchResults" class="results-grid"></div>
+                </div>
+            </section>
+
+            <!-- Add Staff -->
+            <section id="addstaff" class="dashboard-section" style="display:none;">
+                <div class="section-header"><h3>Add New Staff Member</h3></div>
+                <div id="add_staff" class="dashboard-card" style="max-width:500px;">
+                    <h4>➕ New Staff Account</h4>
+                    <input type="text" id="staffUsername" placeholder="Username">
+                    <input type="password" id="staffPassword" placeholder="Password">
+                    <select id="staffRole">
+                        <option value="doctor">🩺 Doctor</option>
+                        <option value="receptionist">📞 Receptionist</option>
+                    </select>
+                    <button onclick="addStaffAndRefresh()">Add Staff Member</button>
+                    <p id="staffSuccessMsg" style="display:none; color:#059669; font-size:0.9rem; text-align:left; margin:0;">✅ Staff member added successfully!</p>
+                </div>
+            </section>
+
+            <!-- Current Staff -->
+            <section id="currentstaff" class="dashboard-section" style="display:none;">
+                <div class="section-header"><h3>Current Staff Members</h3></div>
+                <div class="staff-grid">
+                    <div class="dashboard-card">
+                        <h4>🩺 Doctors</h4>
+                        <div id="doctorList"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h4>📞 Receptionists</h4>
+                        <div id="receptionistList"></div>
+                    </div>
+                </div>
+        </section>
+
+            <!-- Complaints -->
+            <section id="complaints" class="dashboard-section" style="display:none;">
+                <div class="section-header"><h3>Staff Complaints & Feedback</h3></div>
+                <div class="dashboard-card full-width">
+                    <div id="complaintsList" class="results-grid"></div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
-    <script src="triage.js"></script>
-    <script src="render.js"></script>
+    <!-- ══ DELETE CONFIRMATION MODAL ══ -->
+    <div id="deleteModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h3 style="margin-top:0;">Delete Staff Member?</h3>
+            <p style="color:var(--text-muted); margin-bottom:1.5rem;">Are you sure you want to permanently delete this staff member? This action cannot be undone.</p>
+            <div style="display:flex; justify-content:flex-end; gap:1rem;">
+                <button onclick="closeDeleteModal()" style="background:var(--bg); color:var(--text); border:1px solid var(--border-mid); box-shadow:none;">Cancel</button>
+                <button id="confirmDeleteBtn" style="background:var(--danger); color:white; box-shadow:none;">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
     <script src="auth.js"></script>
-    <script>requireRole("admin");</script>
-
-    <hr>
-
-<h2>Manage Staff</h2>
-<div id="add_staff">
-    <input type="text" id="staffUsername" placeholder="Username">
-    <input type="password" id="staffPassword" placeholder="Password">
-    <select id="staffRole">
-        <option value="doctor">Doctor</option>
-        <option value="receptionist">Receptionist</option>
-    </select>
-    <button onclick="handleAddStaff()">Add Staff</button>
-</div>
-
-<div id="staffList"></div>
+    <script src="admin.js"></script>
+    <script>
+        requireRole("admin");
+    </script>
 
 </body>
-
 </html>

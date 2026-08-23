@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPatient - Contact Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-body">
+
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem;">
+        <div class="login-card" style="width: 100%; max-width: 500px;">
+            <div class="login-card-header">
+                <div class="login-avatar">💬</div>
+                <h1>Contact Admin</h1>
+                <p>Submit a complaint or feedback</p>
+            </div>
+
+            <form id="contactForm">
+                <div class="input-group">
+                    <label for="complaintSubject">Subject</label>
+                    <input type="text" id="complaintSubject" placeholder="Brief subject" required>
+                </div>
+                <div class="input-group">
+                    <label for="complaintMessage">Message</label>
+                    <textarea id="complaintMessage" rows="5" placeholder="Describe your issue or feedback..." style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.3s;" required></textarea>
+                </div>
+                <p id="complaintError" style="display:none; color:#dc2626; font-size:0.9rem; text-align:left; margin:0;">⚠️ Please fill out all fields.</p>
+                <p id="complaintSuccess" style="display:none; color:#059669; font-size:0.9rem; text-align:left; margin:0;">✅ Complaint submitted successfully!</p>
+                <button type="button" onclick="submitContactForm()" style="margin-top: 1rem;">Submit</button>
+                <button type="button" onclick="goBack()" class="btn-outline" style="margin-top: 0.5rem; width: 100%; background: transparent; border: 1px solid var(--border-mid); color: var(--text); padding: 0.8rem; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer;">Cancel & Go Back</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="contact.js"></script>
+
+</body>
+</html>

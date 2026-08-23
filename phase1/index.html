@@ -4,23 +4,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextPatient</title>
-    <link rel="stylesheet" href="style.css">
+    <title>NextPatient — Smart Triage for Clinics & Hospitals</title>
+    <meta name="description" content="NextPatient prioritizes patients by medical urgency, not arrival time. A smart triage system for campus clinics and hospital front desks.">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
 
-    <h1>NextPatient</h1>
-    <p>
-        NextPatient is a symptom-based triage priority system for campus and clinic front desks.
-        Patients are seen in order of medical urgency, not arrival time — helping staff manage
-        waiting rooms fairly and efficiently.
-    </p>
-    <p><em>This is an educational, non-diagnostic tool. It does not replace professional medical judgment.
-        If you are experiencing a medical emergency, call emergency services immediately.</em></p>
+    <!-- ══ NAVBAR ══ -->
+    <header class="navbar">
+        <div class="nav-brand">Next<span>Patient</span></div>
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#steps">How It Works</a>
+            <a href="#roles">Our Roles</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html" class="nav-cta">Staff Login →</a>
+        </nav>
+    </header>
 
-    <a href="login.html"><button>Log In</button></a>
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🏥 Smart Medical Triage System</div>
+            <h1 class="hero-title">
+                Seen By <span class="highlight">Urgency</span>,<br>Not Waiting Time.
+            </h1>
+            <p class="hero-desc">
+                NextPatient is a priority-based triage management system for campus clinics and hospital front desks.
+                Patients are seen in order of medical urgency — helping staff manage waiting rooms fairly and efficiently.
+            </p>
+            <div class="hero-buttons">
+                <a href="login.html" class="btn-primary">🔐 Staff Login</a>
+                <a href="#steps" class="btn-outline">See How It Works</a>
+            </div>
+            <div class="hero-disclaimer">
+                ⚕️ Educational, non-diagnostic tool. Does not replace professional medical judgment.
+                In a medical emergency, call emergency services immediately.
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <!-- Floating badges -->
+            <div class="float-badge b1">
+                <div class="dot"></div>
+                Queue Updated Live
+            </div>
+            <div class="float-badge b2">
+                <div class="dot"></div>
+                3 Staff Roles Supported
+            </div>
+
+            <!-- Main preview card -->
+            <div class="hero-card-main">
+                <div class="card-label">🩺 Current Queue — Priority Order</div>
+                <div class="triage-preview-list">
+                    <div class="triage-item">
+                        <div class="triage-rank rank-1">1</div>
+                        <div class="triage-info">
+                            <strong>Chest Pain + Fainting</strong>
+                            <span>Acute · High severity</span>
+                        </div>
+                        <div class="triage-score">Critical</div>
+                    </div>
+                    <div class="triage-item">
+                        <div class="triage-rank rank-2">2</div>
+                        <div class="triage-info">
+                            <strong>Severe Bleeding</strong>
+                            <span>Short-term · Moderate</span>
+                        </div>
+                        <div class="triage-score">Urgent</div>
+                    </div>
+                    <div class="triage-item">
+                        <div class="triage-rank rank-3">3</div>
+                        <div class="triage-info">
+                            <strong>Fever + Vomiting</strong>
+                            <span>Chronic · Low severity</span>
+                        </div>
+                        <div class="triage-score">Standard</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ STATS STRIP ══ -->
+    <div class="stats-strip">
+        <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Staff Roles</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-number">6+</span>
+            <span class="stat-label">Symptom Factors</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Urgency-Based</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-number">Live</span>
+            <span class="stat-label">Real-Time Queue</span>
+        </div>
+    </div>
+
+    <!-- ══ HOW IT WORKS ══ -->
+    <section class="section" id="steps">
+        <div class="section-header">
+            <div class="section-tag">⚙️ Workflow</div>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-sub">From patient arrival to treated and recorded — a seamless four-step process.</p>
+        </div>
+        <div class="steps-row">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-icon">📋</div>
+                <h3>Patient Registers</h3>
+                <p>Receptionist fills in the patient's name, symptoms, pain severity, breathing difficulty, and duration.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-icon">⚡</div>
+                <h3>Score Calculated</h3>
+                <p>An urgency score is instantly computed. Critical symptoms like chest pain or severe bleeding are prioritised.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-icon">🩺</div>
+                <h3>Doctor Consults</h3>
+                <p>The highest-priority patient is called. Doctor reviews today's symptoms plus full past visit history.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-icon">✅</div>
+                <h3>Visit Recorded</h3>
+                <p>Doctor adds treatment notes and finishes the visit. Record is saved. Next patient is auto-called.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ FEATURES ══ -->
+    <section class="section alt" id="features">
+        <div class="section-header">
+            <div class="section-tag">✨ Features</div>
+            <h2 class="section-title">Everything Your Clinic Needs</h2>
+            <p class="section-sub">Built to handle real hospital workflows with simplicity and intelligence.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-box" style="background:#d1fae5; color:#059669;">📋</div>
+                <h3>Smart Intake Form</h3>
+                <p>Log symptoms, pain level (1–5), breathing difficulty (1–5), and duration in one clean, fast interface.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-box" style="background:#fef9c3; color:#ca8a04;">⚡</div>
+                <h3>Auto Triage Scoring</h3>
+                <p>Each patient gets an urgency score computed instantly. Emergency cases are automatically pushed to the top.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-box" style="background:#ede9fe; color:#7c3aed;">🔄</div>
+                <h3>Anti-Starvation Queue</h3>
+                <p>Patients waiting too long receive automatic priority boosts so no one is ever left behind in the queue.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-box" style="background:#fee2e2; color:#dc2626;">🩺</div>
+                <h3>Doctor's Full View</h3>
+                <p>Doctors see today's symptoms, full past visit history, and write treatment notes — all in one place.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-box" style="background:#d1fae5; color:#059669;">📊</div>
+                <h3>Admin Dashboard</h3>
+                <p>Live stats, patient history search by phone number, and complete staff account management.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-box" style="background:#e0f2fe; color:#0284c7;">🔐</div>
+                <h3>Role-Based Access</h3>
+                <p>Admin, Doctor, and Receptionist each have separate, secure dashboards with only what they need.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ ROLES ══ -->
+    <section class="section" id="roles">
+        <div class="section-header">
+            <div class="section-tag">👥 Staff Roles</div>
+            <h2 class="section-title">Built for Every Team Member</h2>
+            <p class="section-sub">Three dedicated portals — each tailored to the exact needs of that role.</p>
+        </div>
+        <div class="about-grid">
+            <div class="role-card" style="border-top-color:#059669;">
+                <div class="role-icon">📞</div>
+                <h3>Receptionist</h3>
+                <p>Registers arriving patients, fills in symptoms and vitals, and monitors the live priority queue in real time.</p>
+            </div>
+            <div class="role-card" style="border-top-color:#7c3aed;">
+                <div class="role-icon">🩺</div>
+                <h3>Doctor</h3>
+                <p>Views the current patient's full profile, checks past visit history, records diagnosis notes, and marks the visit as complete.</p>
+            </div>
+            <div class="role-card" style="border-top-color:#ca8a04;">
+                <div class="role-icon">🔧</div>
+                <h3>Administrator</h3>
+                <p>Oversees clinic stats, searches patient records by phone, and manages all staff accounts from one dashboard.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ CTA / CONTACT ══ -->
+    <section class="cta-section" id="contact">
+        <h2>Ready to Manage Your Clinic Smarter?</h2>
+        <p>Log in with your staff credentials to access your personalised portal — admin, doctor, or receptionist.</p>
+        <div class="quick-contact-grid">
+            <div class="contact-item">📍 Campus Clinic & Hospital Use</div>
+            <div class="contact-item">🕐 Real-Time Queue Updates</div>
+            <div class="contact-item">🔒 Secure Role-Based Login</div>
+        </div>
+        <a href="login.html" class="btn-white">🔐 Staff Login &rarr;</a>
+    </section>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="footer">
+        <div>
+            <div class="footer-brand">NextPatient</div>
+            <p style="margin-top:0.3rem;">Smart Triage Management System</p>
+        </div>
+        <div class="footer-note">
+            ⚕️ This is an educational, non-diagnostic tool and does not replace professional medical judgment.
+            In a medical emergency, call emergency services immediately.
+        </div>
+    </footer>
 
 </body>
-
 </html>
