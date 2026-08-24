@@ -51,46 +51,6 @@ body.doctor-body {
     flex-direction: column;
 }
 
-/* Two-column layout */
-.workspace-grid {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 2rem;
-    align-items: start;
-    width: 100%;
-}
-
-.workspace-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-}
-
-.workspace-card-header {
-    background: #f8fafc;
-    padding: 1.2rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.workspace-card-body {
-    padding: 1.5rem;
-}
-
-.workspace-card-body h3 {
-    margin-top: 0;
-    color: var(--primary);
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-}
-
 .patient-meta-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

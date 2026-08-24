@@ -1,181 +1,3 @@
-/* ============================================
-   ADMIN DASHBOARD — FULL LAYOUT
-   ============================================ */
-
-.dashboard-layout {
-    display: flex;
-    width: 100%;
-    min-height: 100vh;
-}
-
-/* ── Sidebar ── */
-.sidebar {
-    width: 270px;
-    background: white;
-    border-right: 1.5px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 0;
-    box-shadow: 2px 0 20px rgba(5, 150, 105, 0.06);
-    flex-shrink: 0;
-}
-
-.sidebar-header {
-    padding: 0 1.8rem;
-    margin-bottom: 2.5rem;
-    text-align: left;
-}
-
-.sidebar-header h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary);
-    text-align: left;
-    margin-bottom: 0.2rem;
-    letter-spacing: -0.04em;
-}
-
-.sidebar-header p {
-    text-align: left;
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
-    border-radius: 0;
-    padding: 0 1rem;
-    align-items: stretch;
-    width: 100%;
-    max-width: none;
-    margin: 0;
-}
-
-.sidebar-nav a {
-    text-align: left;
-    padding: 0.85rem 1.2rem;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--text-mid);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.25s;
-}
-
-.sidebar-nav a:hover,
-.sidebar-nav a.active {
-    background: var(--soft-green);
-    color: var(--primary);
-}
-
-.sidebar-nav a.logout-btn {
-    margin-top: auto;
-    color: var(--danger);
-}
-.sidebar-nav a.logout-btn:hover {
-    background: #fee2e2;
-    color: var(--danger);
-}
-
-/* ── Main Content ── */
-.main-content {
-    flex: 1;
-    padding: 2.5rem 3.5rem;
-    background: var(--bg);
-    overflow-y: auto;
-}
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1.5px solid var(--border);
-}
-
-.topbar h1 {
-    font-size: 1.8rem;
-    text-align: left;
-    margin: 0;
-    color: var(--text);
-}
-
-.user-profile {
-    background: white;
-    border: 1.5px solid var(--border);
-    padding: 0.7rem 1.4rem;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--primary-dark);
-    box-shadow: var(--shadow-sm);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.user-profile::before {
-    content: '👤';
-}
-
-/* ── Dashboard Sections ── */
-.dashboard-section {
-    margin-bottom: 3.5rem;
-}
-
-.section-header h3 {
-    text-align: left;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-mid);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.85rem;
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.section-header h3::before {
-    content: '';
-    display: inline-block;
-    width: 4px; height: 16px;
-    background: var(--primary);
-    border-radius: 2px;
-}
-
-/* ── Dashboard Card ── */
-.dashboard-card {
-    background: white;
-    border: 1.5px solid var(--border);
-    padding: 2rem;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-}
-
-.dashboard-card h4 {
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 1.2rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 /* ── Stats Grid ── */
 .stats-grid {
     display: grid;
@@ -251,39 +73,6 @@
 }
 
 /* ── Search Bar Row ── */
-.search-bar-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.search-bar-row input {
-    flex: 1;
-}
-
-.search-bar-row button {
-    width: auto;
-    margin: 0;
-    padding: 0 2rem;
-    border-radius: var(--radius-sm);
-}
-
-.full-width { width: 100%; max-width: 100%; }
-
-/* ── Results Grid ── */
-.results-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 1rem;
-    align-items: start;
-}
-
-/* Results / Staff list patientCard override for admin */
-.results-grid .patientCard,
-#staffList .patientCard {
-    max-width: none;
-}
-
 /* ── Staff Member Cards ── */
 .staff-member-card {
     display: flex;
@@ -345,3 +134,19 @@
     margin: 0;
 }
 
+.delete-staff-btn {
+    background: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: auto;
+    padding: 0.5rem;
+    box-shadow: none;
+    transition: color 0.2s;
+}
+.delete-staff-btn:hover {
+    background: none;
+    color: var(--danger);
+    box-shadow: none;
+    transform: none;
+}
