@@ -288,7 +288,7 @@ async function handleSearch() {
 
             patientCard.innerHTML =
                 `<h3>${patient.name}</h3>
-            <p>Age: ${patient.age}</p>
+            <p>Age: ${patient.age} ${patient.gender ? '(' + patient.gender + ')' : ''}</p>
             <p>Symptoms: ${symptomsText} (Duration: ${durationText})</p>
             <p>Treatment/Notes: ${patient.doctorNotes ? patient.doctorNotes : "—"}</p>
             <p>Visit Date: ${new Date(patient.servedTime).toLocaleString()}</p>`;
@@ -330,11 +330,43 @@ async function renderComplaints() {
                 <span style="font-size:0.8rem; color:var(--text-muted);">${dateString}</span>
             </div>
             <p style="text-align:left; color:var(--text); margin-bottom:1rem; white-space: pre-wrap;">${c.message}</p>
-            <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem;">
-                <strong>${c.name}</strong>
-                <span class="staff-role-badge" style="background:${roleBadgeColor}; color:${roleTextColor}; font-size:0.7rem; padding: 2px 6px;">${c.role}</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <strong>${c.name}</strong>
+                    <span class="staff-role-badge" style="background:${roleBadgeColor}; color:${roleTextColor}; font-size:0.7rem; padding: 2px 6px;">${c.role}</span>
+                </div>
+                <button onclick="resolveComplaint('${c.id}')" style="background:none; border:1px solid #10b981; color:#10b981; padding:4px 10px; border-radius:4px; font-size:0.8rem; cursor:pointer; width:auto; box-shadow:none;">✅ Mark Resolved</button>
             </div>
         `;
         complaintsDiv.appendChild(card);
     });
+}
+
+let complaintToResolveId = null;
+
+function resolveComplaint(id) {
+    complaintToResolveId = id;
+    document.getElementById("resolveModal").style.display = "flex";
+    
+    let confirmBtn = document.getElementById("confirmResolveBtn");
+    confirmBtn.onclick = null;
+    confirmBtn.onclick = confirmResolveComplaint;
+}
+
+function closeResolveModal() {
+    document.getElementById("resolveModal").style.display = "none";
+    complaintToResolveId = null;
+}
+
+async function confirmResolveComplaint() {
+    if (!complaintToResolveId) return;
+    
+    try {
+        await deleteComplaint(complaintToResolveId);
+        await renderComplaints();
+    } catch (e) {
+        console.error(e);
+    }
+    
+    closeResolveModal();
 }
