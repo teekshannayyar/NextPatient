@@ -2,7 +2,7 @@ const API_BASE = "http://localhost:5000";
 
 // ===== Utility Functions =====
 
-function calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age, duration) {
+function calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age, duration, gender) {
     let score = parseInt(pain) + parseInt(breathing);
 
     if (hasfever) score += 10;
@@ -18,6 +18,11 @@ function calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPa
     if (duration === "acute" && score >= 40) score += 15;
     else if (duration === "chronic" && score >= 40) score -= 5;
     else if (duration === "chronic" && score < 40) score -= 10;
+
+    // Gender specific adjustments
+    if (gender === 'Female' && hasbleeding) {
+        score += 15; // Higher priority for potential obstetric/gynecological emergencies
+    }
 
     return score;
 }
@@ -211,4 +216,14 @@ async function submitComplaint(complaint) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(complaint)
     });
+}
+
+async function deleteComplaint(id) {
+    try {
+        await fetch(`${API_BASE}/complaints/${id}`, {
+            method: 'DELETE'
+        });
+    } catch (e) {
+        console.error(e);
+    }
 }

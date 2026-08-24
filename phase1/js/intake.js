@@ -4,6 +4,7 @@ async function handleFormsubmit(event) {
     let name = document.getElementById("name").value.trim()
     let age = parseInt(document.getElementById("age").value);
     let phone = document.getElementById("phone").value.trim();
+    let gender = document.getElementById("gender").value;
     let pain = document.getElementById("PainSeverity").value;
     let breathing = document.getElementById("BreathingDifficulty").value;
     let hasfever = document.getElementById("fever").checked;
@@ -27,7 +28,7 @@ async function handleFormsubmit(event) {
         return;
     }
 
-    let score = calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age, duration);
+    let score = calculateTriageScore(pain, breathing, hasfever, hasfainting, haschestPain, hasbleeding, hasvomiting, hasdizziness, age, duration, gender);
 
     let symptomsList = [];
     if (hasfever) symptomsList.push("Fever");
@@ -41,6 +42,7 @@ async function handleFormsubmit(event) {
         id: Date.now() + "-" + Math.random(),
         name: name,
         age: age,
+        gender: gender,
         phone: phone,
         triageScore: score,
         symptoms: symptomsList,
@@ -121,8 +123,8 @@ async function renderQueue() {
         patientCard.innerHTML = `
             <div class="mq-rank">${index + 1}</div>
             <div class="mq-info">
-                <strong>${patient.name}</strong>
-                <span>Waiting: ${waitText}</span>
+                <strong>${patient.name}</strong> <span style="font-size:0.85rem; color:var(--text-muted); margin-left: 6px;">${patient.age}${patient.gender ? patient.gender.substring(0,1) : ''}</span>
+                <br><span>Waiting: ${waitText}</span>
             </div>
             <div>${scoreHTML}</div>
         `;
@@ -155,4 +157,16 @@ if (breathingSlider) {
     breathingSlider.addEventListener("input", function () {
         document.getElementById("breathingValue").textContent = this.value;
     });
+}
+const intakeSectionTitles = {
+    'form': 'Patient Registration',
+    'queue': 'Live Waiting Queue'
+};
+
+function showIntakeSection(sectionId, clickedLink) {
+    document.querySelectorAll('.dashboard-section').forEach(s => s.style.display = 'none');
+    document.getElementById('section-' + sectionId).style.display = 'block';
+    document.getElementById('pageTitle').textContent = intakeSectionTitles[sectionId];
+    document.querySelectorAll('.sidebar-nav a:not(.logout-btn)').forEach(a => a.classList.remove('active'));
+    clickedLink.classList.add('active');
 }

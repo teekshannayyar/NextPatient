@@ -1,5 +1,16 @@
 // ===== Doctor page rendering =====
 
+function updateDoctorName() {
+    let loggedInUser = getLoggedInUser();
+    if (loggedInUser && loggedInUser.username) {
+        let nameDisplay = document.getElementById("doctorNameDisplay");
+        if (nameDisplay) {
+            nameDisplay.textContent = `Dr. ${loggedInUser.username.charAt(0).toUpperCase() + loggedInUser.username.slice(1)}`;
+        }
+    }
+}
+updateDoctorName();
+
 async function renderDoctorView() {
     let workspaceContent = document.getElementById("doctorWorkspaceContent");
     if (!workspaceContent) return;
@@ -81,8 +92,8 @@ async function renderDoctorView() {
                     <h3>${currentlyServing.name}</h3>
                     <div class="patient-meta-grid">
                         <div class="meta-item">
-                            <span>Age</span>
-                            <strong>${currentlyServing.age}</strong>
+                            <span>Age / Gender</span>
+                            <strong>${currentlyServing.age} ${currentlyServing.gender ? currentlyServing.gender.substring(0, 1) : ''}</strong>
                         </div>
                         <div class="meta-item">
                             <span>Phone Number</span>
@@ -203,7 +214,7 @@ async function handleDoctorSearch() {
 
             patientCard.innerHTML =
                 `<h3>${patient.name}</h3>
-            <p><strong>Age:</strong> ${patient.age}</p>
+            <p><strong>Age/Gender:</strong> ${patient.age} ${patient.gender ? '(' + patient.gender + ')' : ''}</p>
             <p><strong>Symptoms:</strong> ${symptomsText} <span style="color:var(--text-muted); font-size:0.85rem;">(Duration: ${durationText})</span></p>
             <p><strong>Treatment/Notes:</strong> ${patient.doctorNotes ? patient.doctorNotes : "—"}</p>
             <p><strong>Visit Date:</strong> ${new Date(patient.servedTime).toLocaleString()}</p>`;

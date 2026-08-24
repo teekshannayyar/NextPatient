@@ -64,13 +64,6 @@
     <script src="js/doctor.js"></script>
     <script>
         requireRole("doctor");
-        
-        // Populate doctor's name
-        let loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
-        if (loggedInUser && loggedInUser.username) {
-            document.getElementById("doctorNameDisplay").textContent = `Dr. ${loggedInUser.username.charAt(0).toUpperCase() + loggedInUser.username.slice(1)}`;
-        }
     </script>
-
 </body>
 </html>
