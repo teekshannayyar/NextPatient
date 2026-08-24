@@ -1,0 +1,127 @@
+/* ===== NEW INTAKE FORM STYLES ===== */
+.form-section-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+.form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.styled-slider {
+    width: 100%;
+    margin-top: 0.5rem;
+    accent-color: var(--primary);
+}
+.styled-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    background: #f8fafc;
+    color: var(--text);
+}
+.symptom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+.symptom-checkbox-card {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+.symptom-checkbox-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.sc-content {
+    display: block;
+    padding: 0.8rem;
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    background: #f8fafc;
+    color: var(--text);
+    text-align: center;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    user-select: none;
+}
+.symptom-checkbox-card:hover input ~ .sc-content {
+    background: #e2e8f0;
+}
+.symptom-checkbox-card input:checked ~ .sc-content {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+.modern-queue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.modern-queue-item {
+    background: var(--bg);
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modern-queue-item.emergency-bg {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+.mq-rank {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--primary);
+    width: 30px;
+}
+.mq-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+.mq-info strong {
+    display: block;
+    color: var(--text);
+    font-size: 1.05rem;
+}
+.mq-info span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+.mq-score {
+    font-weight: 800;
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+.mq-score.danger {
+    background: var(--danger);
+}
+
+
+#staffList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
