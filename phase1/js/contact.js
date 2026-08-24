@@ -1,5 +1,5 @@
 // Check if logged in
-let loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+let loggedInUser = getLoggedInUser();
 if (!loggedInUser) {
     window.location.href = "login.html";
 }

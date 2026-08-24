@@ -1,11 +1,20 @@
 
+function getLoggedInUser() {
+    let user = sessionStorage.getItem("loggedInUser");
+    if (!user) {
+        user = localStorage.getItem("loggedInUser");
+    }
+    return user ? JSON.parse(user) : null;
+}
+
 function handleLogout() {
     sessionStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUser");
     window.location.href = "index.html";
 }
 
 function requireRole(allowedRole) {
-    let loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    let loggedInUser = getLoggedInUser();
 
     if (!loggedInUser) {
         window.location.href = "login.html";

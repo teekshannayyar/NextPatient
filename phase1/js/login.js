@@ -13,7 +13,13 @@ async function handleLogin() {
         return;
     }
 
-    sessionStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+    let rememberMe = document.getElementById("rememberMe").checked;
+
+    if (rememberMe) {
+        localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+    } else {
+        sessionStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+    }
 
     if (matchedUser.role === "admin") {
         window.location.href = "admin.html";
