@@ -39,7 +39,7 @@ async function renderAdminStats() {
         </div>
         <div class="stat-card">
             <div class="stat-value emergency">${stats.emergencyCount}</div>
-            <div class="stat-label">Emergency Cases (>60)</div>
+            <div class="stat-label">Emergency Cases (>60)</div> 
         </div>
     `;
 
@@ -236,6 +236,7 @@ function closeDeleteModal() {
 
 async function confirmDeleteStaff() {
     if (!staffToDeleteId) return;
+
     try {
         await fetch(`${API_BASE}/users/${staffToDeleteId}`, {
             method: "DELETE"
