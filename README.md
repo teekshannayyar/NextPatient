@@ -1,94 +1,101 @@
 # NextPatient
 
-A campus/clinic front-desk tool where patients self-report symptoms and severity, and the system computes a **triage priority score** to automatically order the waiting queue.
+NextPatient is a smart front-desk tool for clinics and hospitals where patients self-report their symptoms and severity. The system computes a **triage priority score** to dynamically order the waiting queue, ensuring that critical cases are attended to first based on urgency rather than just arrival time.
 
-> ⚠️ **Non-diagnostic disclaimer**: NextPatient does not diagnose medical conditions. It only determines waiting-room order based on self-reported symptom severity, duration, and risk factors. It is an educational/prototype tool, not a substitute for professional medical judgment. If you are experiencing a medical emergency, call emergency services immediately.
-
----
-
-## Project Phases
-
-| Phase | Stack | Status |
-|---|---|---|
-| **Phase 1** | Vanilla HTML/CSS/JS + LocalStorage | 🚧 In progress |
-| **Phase 2** | React + Express + MongoDB + JWT auth | 📋 Planned |
-
-### Phase 1 (current)
-- Symptom checklist form with severity sliders
-- Vanilla JS computes a **triage score** on submit
-- Patient inserted into a **sorted LocalStorage queue** using **custom insertion-sort logic** (not `Array.sort()`) — justified below
-- DOM renders a live-updating queue
-
-### Phase 2 (planned)
-- React receptionist dashboard with real-time queue (`useEffect` polling)
-- Patient-facing controlled form
-- Express API: `POST /api/queue/add` (recalculates + re-sorts server-side), `PUT /api/queue/:id/serve`
-- MongoDB models: `Patient`, `QueueEntry` (with `triageScore`)
-- JWT roles: `staff` vs `patient` — staff can view/verify/override self-reported entries before they're finalized in the live queue
+> ⚠️ **Non-diagnostic disclaimer**: NextPatient does not diagnose medical conditions. It is an educational tool designed to determine waiting-room order based on self-reported symptoms, severity, duration, and specific risk factors. It is not a substitute for professional medical judgment.
 
 ---
 
-## Design Decisions
+## 🎯 Problem Statement
 
-### 1. Self-report vs. staff-verified entry (gaming risk)
-Self-reported severity can be exaggerated to skip the queue. Phase 1 has **no authentication** and trusts self-reported input at face value — this is a known, intentional limitation, not an oversight. It is resolved in Phase 2 via staff accounts that can review and override patient-submitted entries before they affect the real queue.
+Traditional clinic waiting rooms often operate on a "first-come, first-served" basis. This approach is fundamentally flawed in medical settings where patient conditions vary drastically in urgency. A patient with severe chest pain might arrive after someone needing a routine checkup, but waiting in order of arrival could be fatal. 
 
-### 2. Triage scoring formula
+**NextPatient** solves this by:
+1. Collecting initial symptom and demographic data directly from the patient or intake staff.
+2. Automatically calculating a triage score based on medical heuristics (e.g., pain levels, age risk factors, specific critical symptoms, and wait time).
+3. Maintaining a live, prioritized queue for the staff and doctors, ensuring the most urgent patients are seen first.
+
+---
+
+## ✨ Features (Current Phase)
+
+- **Smart Triage Scoring**: Calculates priority based on pain levels, breathing difficulty, critical symptom flags (fever, fainting, chest pain, bleeding, etc.), age brackets, gender-specific risks, and symptom duration.
+- **Dynamic Queue Management**: Continuously updates patient priority based on their triage score and elapsed waiting time (anti-starvation mechanism).
+- **Multiple Dashboards**:
+  - **Intake/Patient Flow**: Symptom checklist and demographic form.
+  - **Doctor View**: Interface to view the current queue, serve patients, and access patient history.
+  - **Admin View**: Dashboard to manage user feedback, resolve and delete complaints via custom modals.
+- **Authentication**: User login and signup with persistent "Remember Me" functionality.
+- **RESTful API backend**: Powered by `json-server` to mock a realistic database with queues, users, and complaint data.
+
+---
+
+## 🚀 How to Start
+
+NextPatient is split into a frontend UI (`phase1`) and a local mock backend (`server`). You need to run both to get the full experience.
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) installed on your machine.
+
+### 1. Start the Backend Server
+The backend uses `json-server` to serve the mock database (`db.json`).
+
+```bash
+cd server
+npm install
+npx json-server --watch db.json --port 5000
 ```
-triageScore = painSeverity + breathingDifficulty
-            + symptomFlags (fever, fainting, chestPain, bleeding, vomiting, dizziness)
-            + ageTierBonus
+*The server will start running at `http://localhost:5000`.*
+
+### 2. Start the Frontend
+You can serve the `phase1` folder using any static file server, such as Live Server (VS Code extension) or `http-server` via npm.
+
+Using `http-server`:
+```bash
+npx http-server phase1
 ```
-- **Pain / Breathing**: 1–5 slider values, summed directly.
-- **Symptom flags**: fixed additive bonuses, weighted by real-world urgency (e.g., chest pain +40, fainting +30, bleeding +35, fever +10, vomiting +10, dizziness +15).
-- **Age tier bonus**: age is a recognized risk multiplier in real triage protocols (not just adults — very young children and seniors are both higher-risk). Tiers: age 60–79 → +5, age 80+ or age < 5 → +10. Kept intentionally small relative to symptom flags so age alone cannot outrank a patient with genuine red-flag symptoms.
-- **Duration** (planned addition): symptom duration is not yet factored in — acute onset of severe symptoms should score differently than chronic mild ones. Scoped as a near-term addition.
-
-### 3. Tie-breaking rule
-When two patients have an equal `triageScore`, the patient with the **earlier `arrivalTime`** is placed first — consistent with standard triage fairness norms (first-come-first-served among equally urgent cases). This is implemented explicitly in the insertion logic, not left to incidental loop behavior.
-
-### 4. Custom insertion sort (not `Array.sort()`)
-The queue is always already sorted; each new arrival only needs to find its one correct insertion point. This is an O(n) insert per arrival instead of a full O(n log n) re-sort on every submission — a deliberate efficiency choice for a queue that grows incrementally rather than being rebuilt from scratch.
-
-### 5. Patient-facing vs. staff-facing display
-Raw `triageScore` values will **not** be shown on the public/patient-facing queue display — only a queue position number (e.g., "You are #4," "Now Serving #2"), similar to a numbered-ticket system. Reasoning:
-- Exposing the scoring logic invites patients to learn which symptoms "score higher" and describe symptoms more dramatically to jump the queue.
-- Seeing a low score next to someone else's high score can cause unnecessary distress, even though the tool is explicitly non-diagnostic.
-- Full `triageScore` visibility remains appropriate for a **staff-facing view**, where the reasoning behind ordering needs to be inspectable. This foreshadows the `staff` vs `patient` role split planned for Phase 2.
-
-### 6. "Serve" flow (Domino's-style "Now Serving")
-Rather than a per-card "serve" button on every patient (which would let staff serve out of order), the queue highlights only the **front of the line** as "Now Serving." Marking a patient served always acts on `queue[0]`, naturally enforcing the priority order the whole system exists to compute. A lightweight served-count/history is kept so staff have a visible record of patients seen.
-
-### 7. Future enhancements (explicitly out of scope for Phase 1)
-- **Aging / anti-starvation**: a patient with mild symptoms could theoretically wait indefinitely if higher-priority patients keep arriving. Planned fix: effective score = `triageScore + (waitingMinutes × agingRate)`, recalculated periodically so no patient waits forever, while still respecting urgency.
-- **Doctor specialty matching**: assigning patients to specific doctors based on specialty is a meaningfully larger scheduling/matching problem, outside the original Patient/QueueEntry scope. Parked as a possible Phase 3 stretch goal.
+Or simply open the `phase1/index.html` file in your browser to begin, though a local server is recommended to avoid CORS issues with the API.
 
 ---
 
-## Data Model (Phase 1)
+## 🧠 Design Decisions & Triage Logic
 
-```js
-{
-  id: "string (timestamp + random, unique per patient)",
-  name: "string",
-  age: "number",
-  triageScore: "number (computed)",
-  arrivalTime: "number (ms timestamp, used for tie-breaking)",
-  status: "waiting" | "served"
-}
-```
+### Triage Scoring Formula
+The priority score is computed dynamically using:
+- **Pain / Breathing**: 1–5 slider values.
+- **Symptom Flags**: Fixed bonuses based on severity (e.g., chest pain +40, bleeding +35, fainting +30).
+- **Age Tier Bonus**: High-risk age groups (<5 years or >60 years) receive priority bumps.
+- **Gender Specifics**: Certain symptoms (like bleeding) combined with female gender receive higher priority for potential obstetric/gynecological emergencies.
+- **Wait Time (Anti-Starvation)**: For every 10 seconds of waiting (in this prototype), the patient's effective score increases, ensuring mild cases don't wait indefinitely.
+
+### Queue Sorting & Insertion
+The queue uses a custom insertion logic rather than a full re-sort on every addition. When patients have identical triage scores, the system falls back to a First-Come-First-Served (FCFS) tie-breaker using their arrival time.
+
+### Patient vs. Staff Visibility
+Raw triage scores are intended for staff views (Doctor/Admin). Patient-facing views ideally only see their relative position (e.g., "You are #4") to prevent anxiety and gamification of the symptom form.
 
 ---
 
-## Folder Structure
+## 📂 Folder Structure
 
 ```
 NextPatient/
 ├── README.md
 ├── .gitignore
+├── server/
+│   ├── db.json             # Mock database
+│   └── package.json        # Server dependencies
 └── phase1/
-    ├── index.html      # form structure + queue display
-    ├── style.css        # styling, urgency color-coding
-    ├── triage.js         # scoring logic, insertion sort, LocalStorage read/write
-    └── render.js          # DOM rendering of the live queue
+    ├── index.html          # Landing page
+    ├── intake.html         # Patient intake form
+    ├── doctor.html         # Doctor queue dashboard
+    ├── admin.html          # Admin dashboard (complaints)
+    ├── login.html / signup.html
+    ├── css/                # Styling and layout
+    └── js/
+        ├── api.js          # Central API wrappers & scoring logic
+        ├── auth.js         # Authentication state management
+        ├── admin.js        # Admin modal and complaint logic
+        ├── doctor.js       # Queue rendering and serve logic
+        └── ...
 ```
