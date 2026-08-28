@@ -1,0 +1,189 @@
+{
+  "complaints": [],
+  "queueData": {
+    "id": 1,
+    "patients": []
+  },
+  "currentlyServingData": {
+    "id": 1,
+    "patient": {
+      "id": "1787683064487-0.36909588667864046",
+      "name": "Teekshan Nayyar",
+      "age": 20,
+      "gender": "Male",
+      "phone": "8264643019",
+      "triageScore": 69,
+      "symptoms": [
+        "Fever",
+        "Chest Pain"
+      ],
+      "duration": "acute",
+      "arrivalTime": 1787683064487,
+      "status": "waiting"
+    }
+  },
+  "servedHistoryData": {
+    "id": 1,
+    "visits": [
+      {
+        "id": "1786908920508-0.8646357244167249",
+        "name": "lovish",
+        "age": 67,
+        "phone": "7814697373",
+        "triageScore": 113,
+        "symptoms": [
+          "Fainting / Loss of Consciousness",
+          "Chest Pain",
+          "Severe Bleeding"
+        ],
+        "arrivalTime": 1786908920508,
+        "status": "served",
+        "servedTime": 1786909915072,
+        "doctorNotes": "Prescribed antibiotics and rest"
+      },
+      {
+        "id": "1786908954137-0.9567932777846294",
+        "name": "Nayan",
+        "age": 20,
+        "phone": "8091980900",
+        "triageScore": 55,
+        "symptoms": [
+          "Fever",
+          "Fainting / Loss of Consciousness",
+          "Vomiting"
+        ],
+        "arrivalTime": 1786908954137,
+        "status": "served",
+        "servedTime": 1786963575327,
+        "doctorNotes": "T"
+      },
+      {
+        "id": "1786908935304-0.9143151518378125",
+        "name": "Yuvraj",
+        "age": 45,
+        "phone": "8264643019",
+        "triageScore": 50,
+        "symptoms": [
+          "Fever",
+          "Severe Bleeding"
+        ],
+        "arrivalTime": 1786908935304,
+        "status": "served",
+        "servedTime": 1786965471959,
+        "doctorNotes": "8py45hueri"
+      },
+      {
+        "id": "1786965565602-0.6468593731175749",
+        "name": "Nayan",
+        "age": 20,
+        "phone": "8091980900",
+        "triageScore": 89,
+        "symptoms": [
+          "Fainting / Loss of Consciousness",
+          "Chest Pain"
+        ],
+        "duration": "acute",
+        "arrivalTime": 1786965565602,
+        "status": "served",
+        "servedTime": 1786965599924,
+        "doctorNotes": "szrxdhcfjb"
+      },
+      {
+        "id": "1787229285205-0.7804508087941573",
+        "name": "Aashna",
+        "age": 21,
+        "phone": "8264643019",
+        "triageScore": 102,
+        "symptoms": [
+          "Fever",
+          "Fainting / Loss of Consciousness",
+          "Severe Bleeding",
+          "Vomiting"
+        ],
+        "duration": "acute",
+        "arrivalTime": 1787229285205,
+        "status": "served",
+        "servedTime": 1787508317827,
+        "doctorNotes": "paracetamol"
+      },
+      {
+        "id": "1787229285205-0.7804508087941573",
+        "name": "Aashna",
+        "age": 21,
+        "phone": "8264643019",
+        "triageScore": 102,
+        "symptoms": [
+          "Fever",
+          "Fainting / Loss of Consciousness",
+          "Severe Bleeding",
+          "Vomiting"
+        ],
+        "duration": "acute",
+        "arrivalTime": 1787229285205,
+        "status": "served",
+        "servedTime": 1787508327627,
+        "doctorNotes": ""
+      },
+      {
+        "id": "1787520002570-0.19897669542550556",
+        "name": "Yuvraj",
+        "age": 34,
+        "phone": "7814697373",
+        "triageScore": 59,
+        "symptoms": [
+          "Fever",
+          "Severe Bleeding",
+          "Vomiting"
+        ],
+        "duration": "short_term",
+        "arrivalTime": 1787520002570,
+        "status": "served",
+        "servedTime": 1787520206500,
+        "doctorNotes": "Paracetamol"
+      },
+      {
+        "id": "1787520026048-0.9230793451415891",
+        "name": "Lovish",
+        "age": 56,
+        "phone": "8264643019",
+        "triageScore": 69,
+        "symptoms": [
+          "Chest Pain",
+          "Vomiting"
+        ],
+        "duration": "acute",
+        "arrivalTime": 1787520026048,
+        "status": "served",
+        "servedTime": 1787603199248,
+        "doctorNotes": "befhwdjs"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "teekshannayyar",
+      "password": "admin123",
+      "role": "admin",
+      "id": "yOK6BZ1oR7w"
+    },
+    {
+      "username": "yuvi",
+      "password": "Yuvi@123",
+      "role": "doctor",
+      "id": "hg3s1Y_eH3c"
+    },
+    {
+      "username": "hello",
+      "password": "Hello@123",
+      "role": "receptionist",
+      "id": "Rk4M1ENskT0"
+    },
+    {
+      "username": "Chaitanya",
+      "password": "Chaitu@123",
+      "role": "doctor",
+      "id": "OjZENjxK4HY"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
