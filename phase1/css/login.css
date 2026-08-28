@@ -198,3 +198,30 @@ body.login-body {
     font-weight: 600;
     color: var(--text-mid);
 }
+
+/* ============================================
+   RESPONSIVE (MEDIA QUERIES)
+   ============================================ */
+@media (max-width: 1024px) {
+    .login-layout { grid-template-columns: 1fr; }
+    .login-panel-left { padding: 2rem; min-height: auto; }
+    .login-left-content h2 { font-size: 1.8rem; }
+    .login-features { display: none; }
+    .login-left-footer { display: none; }
+    .login-panel-right { padding: 2rem 1.5rem; }
+}
+
+@media (max-width: 767px) {
+    .login-panel-left {
+        padding: 1.5rem;
+        min-height: 180px;
+        justify-content: center;
+    }
+    .login-left-content h2 { font-size: 1.5rem; margin: 0; }
+    .login-left-content > p { display: none; }
+    .login-left-content { text-align: center; }
+    .login-brand { font-size: 1.3rem; }
+    .login-panel-right { padding: 1.5rem 1rem; }
+    .login-card { padding: 2rem 1.5rem; border-radius: 20px; }
+    .login-card h1 { font-size: 1.4rem; }
+}

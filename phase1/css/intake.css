@@ -125,3 +125,15 @@
     flex-direction: column;
     gap: 0.8rem;
 }
+
+/* ============================================
+   RESPONSIVE (MEDIA QUERIES)
+   ============================================ */
+@media (max-width: 767px) {
+    .form-row-grid {
+        grid-template-columns: 1fr;
+    }
+    .symptom-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -462,6 +462,7 @@ hr {
     .stats-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
     .staff-grid { grid-template-columns: 1fr; }
     .results-grid { grid-template-columns: 1fr; }
+    .workspace-grid { grid-template-columns: 1fr; }
 
     /* Login split panel: stack vertically */
     .login-layout { grid-template-columns: 1fr; }
@@ -494,6 +495,8 @@ hr {
         gap: 1rem;
         font-size: 0.85rem;
         max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     /* Patient cards full width on mobile */
@@ -546,6 +549,13 @@ hr {
 
     /* Toggle items */
     .toggle { font-size: 0.9rem; padding: 0.75rem 0.9rem; }
+
+    /* Modals */
+    .modal-content {
+        padding: 1.5rem;
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
 }
 
 /* ── SHARED DASHBOARD LAYOUT ── */

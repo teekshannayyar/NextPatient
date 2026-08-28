@@ -58,6 +58,12 @@ body.doctor-body {
     margin-bottom: 1.5rem;
 }
 
+@media (max-width: 767px) {
+    .patient-meta-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .meta-item {
     background: #f8fafc;
     padding: 1rem;
